@@ -12,15 +12,24 @@
  *
  * Если какие либо функции написаны руками (без использования библиотек) это не является ошибкой
  */
+import {allPass, compose, equals, prop} from "ramda";
+
+const isWhite = equals('white');
+const isRed = equals('red');
+const isGreen = equals('green');
+const isOrange = equals('orange');
+const getCircle = prop('circle')
+const getTriangle = prop('triangle')
+const getSquare = prop('square')
+const getStar = prop('star')
 
 // 1. Красная звезда, зеленый квадрат, все остальные белые.
-export const validateFieldN1 = ({star, square, triangle, circle}) => {
-    if (triangle !== 'white' || circle !== 'white') {
-        return false;
-    }
-
-    return star === 'red' && square === 'green';
-};
+export const validateFieldN1 = allPass([
+  compose(isRed, getStar),
+  compose(isGreen, getSquare),
+  compose(isWhite, getTriangle),
+  compose(isWhite, getCircle)
+])
 
 // 2. Как минимум две фигуры зеленые.
 export const validateFieldN2 = () => false;
